@@ -1,6 +1,8 @@
+###
 # Created by jwjin@me.com
 # Usage : run 'coffee archiveByEachDirectory.coffee' in the target directory.
 # This will archive each directory on current location and will create the named of directoryName.zip files.
+###
 
 fs = require 'fs'
 sys = require 'sys'
