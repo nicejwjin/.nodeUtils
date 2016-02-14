@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+
+var rl = require('readline').createInterface(
+        process.stdin, process.stdout
+    ),
+    prompts = ['inputExp', 'outputExp'],
+    data = {},
+    p = 0,
+    fs = require('fs');
+
+//console.log('process.cwd : ' + process.cwd());
+
+
+var get = function() {
+    rl.setPrompt(prompts[p] + '> ');
+    rl.prompt();
+    p++;
+};
+
+get();
+
+rl.on('line', function(line) {
+    data[prompts[p - 1]] = line;
+
+    if(p === prompts.length) {
+        return rl.close();
+    }
+    get();
+}).on('close', function () {
+        var dir = process.cwd() + '/';
+        var arr_files = fs.readdirSync(dir);
+
+        var desFiles = new Array();
+
+        for(var i = 0; i < arr_files.length; i++) {
+
+            var str_fileName = arr_files[i];
+            var str_pathFileName = dir + str_fileName;
+            // review the items.
+            console.log(str_fileName + ' is renamed to ' + str_fileName.replace(data.inputExp, data.outputExp, function (err) {
+
+            }));
+
+            fs.rename(str_pathFileName, str_pathFileName.replace(data.inputExp, data.outputExp, function (err) {
+                // do after replace
+                if(err) throw err;
+
+                console.log("AAAAAAAAAAAAAA");
+            }), function (err) {
+                // do after rename
+                if(err) throw err;
+                console.log("BBBBBBBBBBBBBBBBB");
+            });
+        }
+
+        process.exit(0);
+    });
+
+
+// var args = process.argv.slice(2);
+// var args2 = process.argv.slice(3);
+
+// console.log("test : " + args);
+// console.log("test2 : " + args2);
+
+// var program = require('commander');
+// var args = process.argv.slice(2);
+
+// // console.log("test : " + args);
+
+// program
+//   .version('0.0.1')
+
+// program
+//   .command('hi')
+//   .description('initialize project configuration')
+//   .action(function(){
+//    console.log('Hi my Friend!!!');
+// });
+
+// program
+//   .command('bye [name]')
+//   .description('initialize project configuration')
+//   .action(function(name){
+//    console.log('Bye ' + name + '. It was good to see you!');
+// });
+
+// program
+//   .command('*')
+//   .action(function(env){
+//     console.log('Enter a Valid command');
+//     terminate(true);
+// });
+
+// program.parse(process.argv);
